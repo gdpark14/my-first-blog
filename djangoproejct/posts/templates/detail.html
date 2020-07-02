@@ -1,0 +1,44 @@
+<body>
+    <h1>Post Detail</h1>
+    <h2>Title : {{post.title}} </h2>
+    <p> Content :{{post.content}} </p>
+    <a href="{% url 'posts:list' %}">List</a>
+    {% if post.user == user %}
+    <a href="{% url 'posts:edit' post.pk %}">Edit</a>
+    <a href="{% url 'posts:delete' post.pk %}">Delete</a>
+    {% endif %}
+    <div class="card" style="width: 18rem;">
+        <div class="card-header">
+        <span> <a href="{% url 'accounts:people' post.user.username %}">작성자 : {{ post.user.username }} </a></span>
+    </div><div class="card" style="width: 18rem;">
+  
+        <div class="card-header">
+            {% if post.image %}
+            <img src="{{ post.image.url }}" width="200" alt="">
+            {% endif %}
+    </div>
+
+
+    {% if user.is_authenticated %}
+    <form action="{% url 'posts:comments_create' post.pk %}" method="post">
+        {% csrf_token %}
+        <div class="input-group">
+        {{comment_form}}
+        <input type="submit" value="Submit"/>
+    </form>
+    {% endif %}
+
+    <ul>
+        {% for comment in post.comment_set.all %}
+        <div class="card-text">
+            <strong> {{ comment.user.username }} </strong> {{ comment.content }} </div>
+            {% if comment.user == user %}
+            <a href="{% url 'posts:comments_delete' post.id comment.id %}">댓글 삭제</a>
+            {% endif %}
+        {% empty %}
+        <div class="card-text">댓글이 없습니다.</div>
+
+        {% endfor %}
+
+    </ul>   
+</body>

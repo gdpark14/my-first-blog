@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block container %}
+
+<h1>정말로 삭제하겠읍니까?</h1>
+<form method="post">
+    {% csrf_token %}
+    <input type="submit" value="삭제"/>
+</form>
+
+{% endblock %}

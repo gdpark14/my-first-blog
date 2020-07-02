@@ -1,0 +1,13 @@
+
+{% extends 'base.html' %}
+{% block container %}
+    <h1>Post Edit</h1>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="title" value="{{ posts.title }}"/>
+        <input type="text" name="content" value="{{ posts.content }}"/>
+        <input type="submit" value="Submit"/>
+    </form>
+    <a href="{% url 'posts:detail' posts.pk%}">뒤로가기</a>
+
+{% endblock %}
